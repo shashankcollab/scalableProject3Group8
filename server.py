@@ -10,6 +10,9 @@ while(True):
             s.bind((HOST, PORT))
             s.listen(5)
             while True:
+                msgStr = input("Please enter a message or type 'yes' to close the connection:  ")
+                if msgStr[0:1].lower() == "y" or msgStr[0:3].lower() == "yes":
+                    sys.exit(0)
                 print("{}{}".format(HOST,PORT))
                 conn, addr = s.accept()
                 with conn:
@@ -21,13 +24,11 @@ while(True):
                         if not data:
                             break
                         elif data == 'connect':
-                            msgStr = 'Hello From the Server {}'.format(HOST)
+                            #msgStr = 'Hello From the Server {}'.format(HOST)
                             conn.sendall(msgStr.encode())
                         else:
                             conn.sendall(b'No available data')
-                data = input("Please specify 'yes/no' if you want to close the server:  ")
-                if data[0:1].lower() == "y" or data[0:3].lower() == "yes":
-                    sys.exit(0)
+                
         except KeyboardInterrupt as e:
             print('server is disconnecting')
             sys.exit(0)
