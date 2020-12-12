@@ -20,9 +20,14 @@ while(True):
                         print('Connected by', addr)
                         while True:
                             data = conn.recv(1024)
+                            data = data.decode()
+                            print('Message sent by client: ', data)
                             if not data:
                                 break
-                            conn.sendall(data)
+                            elif data == 'connect':
+                                conn.sendall(b'Hello From the Server {}'.format(HOST))
+                            else:
+                                conn.sendall(b'No available data')
         except KeyboardInterrupt as e:
             print('server is disconnecting')
             sys.exit(0)
