@@ -25,7 +25,8 @@ while(True):
                             if not data:
                                 break
                             elif data == 'connect':
-                                conn.sendall(b'Hello From the Server {}'.format(HOST))
+                                msgStr = 'Hello From the Server {}'.format(HOST)
+                                conn.sendall(msgStr.encode())
                             else:
                                 conn.sendall(b'No available data')
         except KeyboardInterrupt as e:
