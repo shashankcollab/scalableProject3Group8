@@ -28,7 +28,9 @@ while(True):
                                     elif data == 'connect':
                                         filename = 'temp_log.json'
                                         f = open(filename, 'rb')
-                                        msgStr= f.read(1024)
+                                        msgStr=''
+                                        for line in (f.readlines() [-1:]): 
+                                            msgStr=line
                                         # msgStr = 'Hello From the Server {}{}'.format(HOST,data)
                                         print('Hello From the Server {} is with data {}'.format(msgStr,data))
                                         conn.sendall(msgStr)
