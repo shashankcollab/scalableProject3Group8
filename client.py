@@ -15,7 +15,10 @@ while True:
             s.sendall(msg.encode())
             data = s.recv(1024).decode()
             d = json.loads(data)
-            print('Suggesiont from POD {} is {} because of weather condition temperature is {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
+            if "Enjoy" in d["Alert"]:
+                print('Great! Suggesiont from POD {} is {} Weather seems good with temperature {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
+            else:
+                print('Caution! Suggesiont from POD {} is {} because of weather condition temperature is {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
 
 
             with open('temp_log_client.json', 'w') as f:

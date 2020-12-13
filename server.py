@@ -31,7 +31,6 @@ while(True):
                                         msgStr=''
                                         for line in (f.readlines() [-1:]): 
                                             msgStr=line
-                                        # msgStr = 'Hello From the Server {}{}'.format(HOST,data)
                                         print('Hello From the Server {} is with data {}'.format(msgStr,data))
                                         conn.sendall(msgStr)
                                     else:
