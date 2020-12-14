@@ -3,10 +3,25 @@
 import socket
 import sys
 import dataprovider as dpr
+import threading 
 HOST = socket.gethostname()  # Standard loopback interface address (localhost)
 PORT = 33000        # Port to listen on (non-privileged ports are > 1023)
 connections = []
 peers = []
+
+def broadcast_peers():
+    for connection in connections:
+        peer = 'Peers currently in the network: {}'.format(peers)
+        try:
+            filename = 'temp_log.json'
+            f = open(filename, 'rb')
+            for line in (f.readlines() [-1:]): 
+                msgStr=line
+            #print('Hello From the Server {} is with data {}'.format(msgStr,data))
+            byteStr = msgStr + b'\n' + peer.encode()
+            connection.sendall(byteStr)
+        except Exception as e:
+            pass
 
 def run():
 
@@ -34,12 +49,9 @@ def run():
                                         if not data:
                                             break
                                         elif data == 'connect':
-                                            filename = 'temp_log.json'
-                                            f = open(filename, 'rb')
-                                            for line in (f.readlines() [-1:]): 
-                                                msgStr=line
-                                            print('Hello From the Server {} is with data {}'.format(msgStr,data))
-                                            conn.sendall(msgStr)
+                                            c_thread = threading.Thread(target=broadcast_peers)
+                                            c_thread.daemon = True
+                                            c_thread.start()
                                         else:
                                             conn.sendall(b'No available data')
                         except KeyboardInterrupt as e:
@@ -56,14 +68,15 @@ def run():
                         print('closing connection')
                         sys.exit(0)
 
-                    
             except KeyboardInterrupt as e:
                 print('server is disconnecting')
                 sys.exit(0)
 
 def checkpeers(conn, addr):
-    # connections.append(conn)
-    # peers.append(addr)
+    if conn not in connections:
+        connections.append(conn)
+    if addr not in peers:
+        peers.append(addr)
     print('Connected peers are: {}/n{}'.format( addr, conn))
     return connections, peers
 
