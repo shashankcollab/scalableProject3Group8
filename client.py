@@ -11,6 +11,7 @@ msg = 'connect'
 
 
 def run():
+    available_hosts = []
     _HOST = sys.argv[1]  if len(sys.argv) > 1 else None
     while True:
         HOST = input("Please type the new peer or hit Enter to continue : \n") or _HOST
