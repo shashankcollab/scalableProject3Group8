@@ -12,6 +12,7 @@ then
 git pull
 fi
 python dataprovider.py & 
+python app.py & 
 python server.py
 
 if [ "$comment" ]
