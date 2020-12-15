@@ -30,8 +30,9 @@ def run():
                 s.connect((HOST, PORT))
                 s.sendall(msg.encode())
                 data = s.recv(1024).decode()
-                live_data = data.split('\n')[0]
-                available_hosts = data.split('\n')[1]
+                live_data = data.split('_')[0]
+                available_hosts = data.split('_')[1]
+                print('available hosts are: {}'.format(available_hosts))
                 if data:
                     d = json.loads(live_data)
                     if "Enjoy" in d["Alert"]:
