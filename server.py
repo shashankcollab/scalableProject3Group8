@@ -11,7 +11,7 @@ PORT = 33000        # Port to listen on (non-privileged ports are > 1023)
 
 def broadcast_peers(connections, peers):
     for connection in connections:
-        peer = '_Peers currently in the network: {}'.format(peers)
+        peer = '_Peers currently in the network:_{}'.format(peers)
         print(f'peers in the network: {peer}')
         try:
             filename = 'temp_log.json'

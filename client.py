@@ -32,9 +32,10 @@ def run():
                 data = s.recv(1024).decode()
                 if "_" in data:
                     live_data = data.split('_')[0]
-                    available_hosts = data.split('_')[1]
-                    print('available hosts are: {}'.format(available_hosts))
-                    if data:
+                    
+                    available_hosts = parseHosts(data.split('_')[2])
+                    print('available hosts are: {}'.format(list(available_hosts)))
+                    if  data:
                         d = json.loads(live_data)
                         if "Enjoy" in d["Alert"]:
                             print('Great! \nSuggesiont from POD {} is {} Weather seems good with temperature {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
@@ -58,7 +59,10 @@ def run():
         except Exception as e:
             print('An Exception occurred so searching for new peer...')
             peerFound = False
-            available_hosts.remove(HOST)
+            try:
+                available_hosts.remove(HOST)
+            except Exception as e:
+                pass
             if len(available_hosts) > 0:
                 
                 for host in available_hosts:
@@ -101,6 +105,21 @@ def updateavailableHost(filename, host, action):
     elif action=='a':
         print('dosomething')
     return hostslist
+def parseHosts(hosts):
+   # print(hosts[1:len(hosts)-1])
+    ls = hosts[1:len(hosts)-1].split(',') 
+    
+    res = []
+    check = False
+    for host in ls:
+        parsed = host[1:] if not check else host[2:]
+        check = True
+        if '.' in parsed:
+            pi_name = "rasp-" + parsed[1:len(parsed)-1].split('.')[-1].zfill(3)
+            if pi_name not in res:
+                res.append(pi_name)
+        
+    return res
 
 def myhost():
     return socket.gethostname()
