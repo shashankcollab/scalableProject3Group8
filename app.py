@@ -22,6 +22,12 @@ def register():
     f.close()
     return f'Here is your key: {newkeyval}'
 
+@app.route("/showconnectionstring")
+def showconnectionstring():
+    availableHosts= c.availableHost('hosts.csv').split(",")
+    avlhost= print_ul(availableHosts)
+    return f'python3 client.py {avlhost} {availableHosts}'
+
 def print_ul(elements):
     output='<ul>'
     for s in elements:
