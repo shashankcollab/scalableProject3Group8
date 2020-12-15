@@ -18,7 +18,7 @@ def run():
         while HOST is None:
             HOST = input("NO PEER SPECIFIED! Please type peer: \n") or _HOST
         print("Connected to the peer: ", HOST)
-        msg = input("Please enter the msg you want to send: \n")
+        msg = input("Please enter the key you registered with to send to sender: \n")
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 # here i am just trying to see if i can read the avaialble hosts from the list
@@ -30,27 +30,31 @@ def run():
                 s.connect((HOST, PORT))
                 s.sendall(msg.encode())
                 data = s.recv(1024).decode()
-                live_data = data.split('_')[0]
-                available_hosts = data.split('_')[1]
-                print('available hosts are: {}'.format(available_hosts))
-                if data:
-                    d = json.loads(live_data)
-                    if "Enjoy" in d["Alert"]:
-                        print('Great! \nSuggesiont from POD {} is {} Weather seems good with temperature {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
-                    else:
-                        print('Caution! \nSuggesiont from POD {} is {} because of weather condition temperature is {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
+                if "_" in data:
+                    live_data = data.split('_')[0]
+                    available_hosts = data.split('_')[1]
+                    print('available hosts are: {}'.format(available_hosts))
+                    if data:
+                        d = json.loads(live_data)
+                        if "Enjoy" in d["Alert"]:
+                            print('Great! \nSuggesiont from POD {} is {} Weather seems good with temperature {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
+                        else:
+                            print('Caution! \nSuggesiont from POD {} is {} because of weather condition temperature is {} humidity {}: '.format(HOST, d["Alert"],d["temperature"],d["humidity"]))
 
 
-                    with open('temp_log_client.json', 'w') as f:
-                        print ('Storing file..')
-                        if not data:
-                            break
-                        f.write('\n')
-                        f.write(live_data)
-                        s.close()
-                else :
-                    print('No data available at the moment at {}'.format(HOST))
-                print ('Succesfully recieved')
+                        with open('temp_log_client.json', 'w') as f:
+                            print ('Storing file..')
+                            if not data:
+                                break
+                            f.write('\n')
+                            f.write(live_data)
+                            s.close()
+                    else :
+                        print('No data available at the moment at {}'.format(HOST))
+                    print ('Succesfully recieved')
+                else:
+                    print('Incorrect key .. system is existing, please retry')
+
         except Exception as e:
             print('An Exception occurred so searching for new peer...')
             peerFound = False
@@ -98,5 +102,7 @@ def updateavailableHost(filename, host, action):
         print('dosomething')
     return hostslist
 
+def myhost():
+    return socket.gethostname()
 if __name__ == '__main__':
     run()

@@ -3,6 +3,7 @@
 import socket
 import sys
 import dataprovider as dpr
+import csv
 import threading 
 HOST = socket.gethostname()  # Standard loopback interface address (localhost)
 PORT = 33000        # Port to listen on (non-privileged ports are > 1023)
@@ -11,6 +12,7 @@ PORT = 33000        # Port to listen on (non-privileged ports are > 1023)
 def broadcast_peers(connections, peers):
     for connection in connections:
         peer = '_Peers currently in the network: {}'.format(peers)
+        print(f'peers in the network: {peer}')
         try:
             filename = 'temp_log.json'
             f = open(filename, 'rb')
@@ -55,7 +57,7 @@ def run():
                                         print('Message sent by client: ', data)
                                         if not data:
                                             break
-                                        elif data == 'connect':
+                                        elif checkconnect(data):
                                             c_thread = threading.Thread(target=broadcast_peers, args = (connections, peers))
                                             c_thread.daemon = True
                                             c_thread.start()
@@ -86,6 +88,14 @@ def checkpeers(conn, addr):
         peers.append(addr)
     print('Connected peers are: {}/n{}'.format( addr, conn))
     #return connections, peers
+
+def checkconnect(data):
+    status=False
+    csv_file = csv.reader(open('ourkey.csv', "r"), delimiter=",")
+    for row in csv_file:
+        if data in row:
+            status= True
+    return status
 
 if __name__ == '__main__':
     run()

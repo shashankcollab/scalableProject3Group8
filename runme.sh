@@ -5,6 +5,7 @@ then # if/then branch
   echo 'Setting up environment ... It may take some time.'
   sh ./env_create.sh
   source ~/envp/bin/activate
+  pip3 install matplotlib
 fi
 
 if [ "$comment" ]
