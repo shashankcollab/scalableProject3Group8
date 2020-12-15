@@ -52,21 +52,28 @@ def run():
                     print('No data available at the moment at {}'.format(HOST))
                 print ('Succesfully recieved')
         except Exception as e:
-            print('Searching for new peer...')
+            print('An Exception occurred so searching for new peer...')
             peerFound = False
+            available_hosts.remove(HOST)
             if len(available_hosts) > 0:
+                
                 for host in available_hosts:
                     # check if host is active
                     try:
-                        s.connect((HOST, PORT))
-                        HOST = host
-                        peerFound = True
-                        break
+                        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s: 
+                            s.connect((HOST, PORT))
+                            
+                            HOST = host
+                            peerFound = True
+                            s.close()
+                            break
                     except Exception as e:
+                        
                         continue
             if not peerFound:
                 print('No peer alive')    
                 sys.exit(0)
+        print('Peer found is {}'.format(HOST))
 
         data = input("Please hit enter to continue or type 'quit' if you want to close the connection: ") or "no"
         if data[0:1].lower() == "q" or data[0:4].lower() == "quit":
