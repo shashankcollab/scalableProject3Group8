@@ -93,7 +93,7 @@ def checkconnect(data):
     status=False
     csv_file = csv.reader(open('ourkey.csv', "r"), delimiter=",")
     for row in csv_file:
-        if data == row[1]:
+        if data in row:
             status= True
     return status
 

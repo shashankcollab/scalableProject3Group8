@@ -37,11 +37,11 @@ def print_ul(elements):
     return output
 
 def newkey(string_length=6):
-    """Returns a random string of length string_length."""
+    #gives you the key to use as registration
     random = str(uuid.uuid4()) 
     random = random.upper() 
     random = random.replace("-","")
     return random[0:string_length] # Return the random string.
 
 if __name__ == "__main__":
-     app.run( host=socket.gethostname() ,port=33002,debug=True)
+     app.run( host=socket.gethostname() ,port=33002,debug=False)
