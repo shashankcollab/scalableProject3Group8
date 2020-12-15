@@ -19,6 +19,9 @@ def run():
             HOST = input("NO PEER SPECIFIED! Please type peer: \n") or _HOST
         print("Connected to the peer: ", HOST)
         msg = input("Please enter the key you registered with to send to sender: \n")
+        if not msg:
+            print('Sorry! Key can not be blank')
+            run()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 # here i am just trying to see if i can read the avaialble hosts from the list
