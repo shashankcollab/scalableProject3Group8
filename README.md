@@ -1,6 +1,8 @@
 # scalableProject3Group8
 Scalable Project Group8 TCD
 
+## Installation Guide:
+
 Checkout the code from the Repo: git clone https://github.com/shashankcollab/scalableProject3Group8.git
 
 ### If you do not have access to the repo please email to shrivass@tcd.ie
@@ -21,8 +23,11 @@ Checkout the code from the Repo: git clone https://github.com/shashankcollab/sca
 
 #### If environment is not set
 
+
 #### [Example: ./runme.sh foldername outputfilename git_commit_comment set_envrionment_flag]
 ./runme.sh true
+
+## Program Running Guide:
 
 #### If environment is already set
 ./runme.sh 
@@ -50,3 +55,6 @@ example client.py rasp-030
 
 - If you are registered to any other pod, please specify that in the next question.
 - after that provide the key when asked to connect to system and get the data.
+
+### To kill all the processes of this app, use :
+- sh killme.sh
