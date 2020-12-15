@@ -12,12 +12,13 @@ then
 git pull
 fi
 python dataprovider.py & 
+python app.py & 
 python server.py
 
 if [ "$comment" ]
 then
 git add .
 git commit -m $comment
-git push origin master
+git push origin main
 deactivate
 fi
