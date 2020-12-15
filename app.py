@@ -3,16 +3,26 @@ import socket
 import client as c
 import uuid
 app = Flask(__name__)
-
+local = False
 @app.route("/")
 def home():
-    return f'<h1>Hello, New POD!</h1> </br>Welcome to Group 8 Project. <br/><br/>These are available APIs <br/><br/> <ul><li>To see the availble POD please use <b>/pods</b> <br/><br/></li><li>To register and get the key please use <b>/register</b></li></ul>'
+    if local:
+        pistring=f'<h1>Hello, New POD!</h1> </br>Welcome to Group 8 Project. <br/><br/>These are available APIs <br/><br/> <ul><li>To see the availble POD please use <b>/pods</b> <br/><br/></li><li>To register and get the key please use <b>/register</b></li><li>For connection string help use <b>/help</b></li></ul>'
+    else:
+        pistring=f'Hello, New POD! Welcome to Group 8 Project..... These are available APIs..... To see the availble POD please use /pods ||| To register and get the key please use  /register ||| For connection string help use  /help'
+    
+    return pistring
 
 @app.route("/pods")
 def pods():
     availableHosts= c.availableHost('hosts.csv').split(",")
     avlhost= print_ul(availableHosts)
-    return f'There are following PODs available to connect <br/><ul>{avlhost}</ul>'
+
+    if local:
+        pistring=f'There are following PODs available to connect <br/><ul>{avlhost}</ul>'
+    else:
+        pistring=f'There are following PODs available to connect : .... {availableHosts}'
+    return pistring
 
 @app.route("/register")
 def register():
@@ -20,13 +30,12 @@ def register():
     f = open("ourkey.csv", "a")
     f.write(f"{newkeyval},")
     f.close()
-    return f'Here is your key: {newkeyval}'
+    return f'Here is your key: {newkeyval} '
 
-@app.route("/showconnectionstring")
-def showconnectionstring():
-    availableHosts= c.availableHost('hosts.csv').split(",")
-    avlhost= print_ul(availableHosts)
-    return f'python3 client.py {avlhost} {availableHosts}'
+@app.route("/help")
+def help():
+    samplehost= c.myhost()
+    return f'python3 client.py {samplehost} yourkey'
 
 def print_ul(elements):
     output='<ul>'

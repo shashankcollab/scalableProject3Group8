@@ -54,7 +54,7 @@ def run():
                     print ('Succesfully recieved')
                 else:
                     print('Incorrect key .. system is existing, please retry')
-                    
+
         except Exception as e:
             print('An Exception occurred so searching for new peer...')
             peerFound = False
@@ -102,5 +102,7 @@ def updateavailableHost(filename, host, action):
         print('dosomething')
     return hostslist
 
+def myhost():
+    return socket.gethostname()
 if __name__ == '__main__':
     run()
