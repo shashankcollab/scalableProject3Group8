@@ -39,7 +39,7 @@ def graph(x,y):
     plt.plot(x,y)
     plt.savefig('fig1.png')
     #return fig
-    plt.show()
+    #plt.show()
     
 
 
@@ -49,13 +49,4 @@ while True:
     data_collection()
     #graph(temp)
     
-    plt.pause(5)
-
-
-
-
-
-
-
-
-
+    plt.pause(2)
