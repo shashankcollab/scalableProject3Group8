@@ -12,9 +12,9 @@ if [ "$comment" ]
 then
 git pull
 fi
-python dataprovider.py & 
-python app.py & 
-python server.py
+python3 dataprovider.py & 
+python3 app.py & 
+python3 server.py
 
 if [ "$comment" ]
 then
