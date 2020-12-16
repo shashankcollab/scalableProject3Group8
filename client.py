@@ -123,7 +123,7 @@ def parseHosts(hosts):
                 res.append(pi_name)
     print('my pi: {}'.format(myhost()))
     if str(myhost()) in res:
-        res.remove('rasp-011')
+        res.remove(str(myhost()))
     return res
 
 def myhost():
