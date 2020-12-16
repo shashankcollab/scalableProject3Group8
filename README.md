@@ -40,7 +40,7 @@ Checkout the code from the Repo: git clone https://github.com/shashankcollab/sca
 - Client PODs can connect to any other POD to receive the sensor data.
 
 ### API details: User will see the list of APIs availble by hitting one of the pods
-- Sample URL: curl -v http://rasp-030.berry.scss.tcd.ie:33033/
+- Sample URL: curl -v http://rasp-030.berry.scss.tcd.ie:33002/
 
 To see the availble POD please use /pods
 
