@@ -12,8 +12,8 @@ if [ "$comment" ]
 then
 git pull
 fi
-python3 dataprovider.py & 
-python3 app.py & 
+nohup python3 dataprovider.py > output.log &
+nohup python3 app.py > output.log &
 python3 server.py
 
 if [ "$comment" ]
