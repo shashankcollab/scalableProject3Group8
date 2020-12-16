@@ -37,7 +37,7 @@ def run():
                     live_data = data.split('_')[0]
                     
                     available_hosts = parseHosts(data.split('_')[2])
-                    print('available hosts are: {}'.format(list(available_hosts)))
+                    print('other available Pis are: {}'.format(list(available_hosts)))
                     if  data:
                         d = json.loads(live_data)
                         if "Enjoy" in d["Alert"]:
@@ -63,16 +63,16 @@ def run():
             print('An Exception occurred so searching for new peer...')
             peerFound = False
             try:
-                available_hosts.remove(HOST)
+                available_hosts.remove(socket.gethostname())
             except Exception as e:
                 pass
+            print(available_hosts)
             if len(available_hosts) > 0:
-                
                 for host in available_hosts:
                     # check if host is active
                     try:
                         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s: 
-                            s.connect((HOST, PORT))
+                            s.connect((host, PORT))
                             
                             HOST = host
                             peerFound = True
@@ -121,7 +121,9 @@ def parseHosts(hosts):
             pi_name = "rasp-" + parsed[1:len(parsed)-1].split('.')[-1].zfill(3)
             if pi_name not in res:
                 res.append(pi_name)
-        
+    print('my pi: {}'.format(myhost()))
+    if str(myhost()) in res:
+        res.remove('rasp-011')
     return res
 
 def myhost():
